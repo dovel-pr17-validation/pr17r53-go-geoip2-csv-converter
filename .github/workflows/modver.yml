@@ -1,0 +1,22 @@
+name: modver
+
+on:
+  pull_request:
+
+permissions:
+  contents: read # This gets granted by default, so keep granting it.
+  packages: read # This gets granted by default, so keep granting it.
+  pull-requests: write # Needed to comment on the PR.
+
+jobs:
+  modver:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: bobg/modver@4911b05e6504c9a0f44a4bb97d370543cdaeaca3 # v2.14.4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          pull_request_url: https://github.com/${{ github.repository }}/pull/${{ github.event.number }}
